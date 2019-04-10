@@ -1,0 +1,20 @@
+body {
+  background-color: #d7d7d7;
+  background: url(./assets/bg.svg);
+  background-size: 100% 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.register-background {
+  background-color: orange;
+}
+
+.logo {
+  background: url("../src/assets/clientc_logo.svg");
+  margin-top: 5px;
+  height: 50px;
+  width: 75px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
