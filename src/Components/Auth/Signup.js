@@ -90,12 +90,12 @@ class Login extends Component {
             <h1 className="display-4 text-white mt-5">
               Manage and track client payments.
             </h1>
-            <button className="btn btn-light btn-lg text-danger d-none d-lg-block mt-3">
+            <div style={signup} className="d-none d-lg-block">
               Get started for free
-            </button>
+            </div>
           </div>
           <div className="col-md-6">
-            <div className="card">
+            <div className="card" style={{ marginBottom: "50px" }}>
               <div className="card-body">
                 <h1 className="text-center pb-4 pt-3">
                   <span className="text-warning">Create Your Account</span>
@@ -172,6 +172,16 @@ class Login extends Component {
     );
   }
 }
+
+const signup = {
+  fontSize: "24px",
+  color: "red",
+  marginTop: "20px",
+  padding: "10px",
+  backgroundColor: "white",
+  width: "50%",
+  textAlign: "center"
+};
 
 Login.propTypes = {
   firebase: PropTypes.object.isRequired,
