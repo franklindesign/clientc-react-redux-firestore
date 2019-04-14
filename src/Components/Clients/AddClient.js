@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
+import { AvForm, AvField } from "availity-reactstrap-validation";
 
 class AddClient extends Component {
   state = {
@@ -19,8 +20,21 @@ class AddClient extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  canBeSubmitted() {
+    const { firstName, phone } = this.state;
+
+    return firstName.length > 1 && phone.length === 11;
+  }
+
+  handleInvalidSubmit(event, errors, values) {
+    this.setState({ errors, values });
+  }
+
   onSubmit = e => {
-    e.preventDefault();
+    if (!this.canBeSubmitted()) {
+      e.preventDefault();
+      return;
+    }
 
     // clear form
     const newClient = this.state;
@@ -38,6 +52,7 @@ class AddClient extends Component {
 
   render() {
     const { disableBalanceOnAdd } = this.props.settings;
+    const isEnabled = this.canBeSubmitted();
 
     return (
       <div>
@@ -54,15 +69,17 @@ class AddClient extends Component {
                 <p style={{ fontSize: "12px", color: "grey" }}>
                   (For testing, don't use real names, email, and phone numbers.)
                 </p>
-                <form className="needs-validation" onSubmit={this.onSubmit}>
+                <AvForm className="needs-validation" onSubmit={this.onSubmit}>
                   <div className="form-group mt-3">
                     <label htmlFor="firstName">First Name</label>
-                    <input
+                    <AvField
                       type="text"
                       className="form-control"
                       name="firstName"
                       minLength="2"
                       required
+                      validate={{ pattern: { value: /^[a-zA-Z]*$/ } }}
+                      errorMessage={"First Name required"}
                       onChange={this.onChange}
                       value={this.state.firstName}
                     />
@@ -70,45 +87,59 @@ class AddClient extends Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="lastName">Last Name</label>
-                    <input
+                    <AvField
                       type="text"
                       className="form-control"
                       name="lastName"
                       minLength="2"
+                      validate={{ pattern: { value: /^[a-zA-Z]*$/ } }}
                       required
+                      errorMessage={"Last Name required"}
                       onChange={this.onChange}
                       value={this.state.lastName}
                     />
                   </div>
                   <div className="form-group">
                     <label htmlFor="email">Email</label>
-                    <input
+                    <AvField
                       type="email"
                       className="form-control"
                       name="email"
                       required
+                      validate={{
+                        pattern: {
+                          value: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
+                        }
+                      }}
+                      errorMessage={"Email required"}
                       onChange={this.onChange}
                       value={this.state.email}
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="phone">Phone</label>
-                    <input
-                      type="text"
+                    <AvField
+                      label="Phone Number"
+                      type="tel"
                       className="form-control"
                       name="phone"
-                      minLength="10"
+                      validate={{ tel: true }}
                       required
+                      maxLength="11"
+                      errorMessage={
+                        "Phone Number required / *North American number only"
+                      }
                       onChange={this.onChange}
                       value={this.state.phone}
                     />
                   </div>
                   <div className="form-group">
                     <label htmlFor="balance">Balance</label>
-                    <input
+                    <AvField
                       type="text"
                       className="form-control"
                       name="balance"
+                      required
+                      errorMessage={"Add Balance owed"}
                       onChange={this.onChange}
                       value={this.state.balance}
                       disabled={disableBalanceOnAdd}
@@ -125,12 +156,14 @@ class AddClient extends Component {
                       value={this.state.notes}
                     />
                   </div>
-                  <input
-                    type="submit"
-                    value="Add Client"
-                    className="btn btn-block btn-dark"
-                  />
-                </form>
+                  {isEnabled && (
+                    <input
+                      type="submit"
+                      value="Add Client"
+                      className="btn btn-block btn-dark"
+                    />
+                  )}
+                </AvForm>
               </div>
             </div>
           </div>

@@ -33,17 +33,17 @@ class Clients extends Component {
         <div>
           <div className="row">
             <div className="col-6">
-              <h1 className="display-4 text-white">Clients</h1>
+              <h1 className="display-4 text-white mt-3">Clients</h1>
             </div>
             <div className="text-right col-6 mt-3">
               <h5 className="text-white">Total Owed:</h5>
-              <span className="text-white">
+              <h3 className="text-white">
                 {" "}
                 $
                 {parseFloat(totalOwed)
                   .toFixed(2)
                   .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
-              </span>
+              </h3>
             </div>
             <table
               className="table bg-white mt-2 table-hover "
@@ -68,7 +68,7 @@ class Clients extends Component {
                     <td
                       className={classnames({
                         "text-danger": client.balance > 0,
-                        "text-success": client.balance === 0
+                        "text-success": client.balance === 0.0
                       })}
                     >
                       $

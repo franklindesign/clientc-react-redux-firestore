@@ -98,10 +98,10 @@ class EditClient extends Component {
                     <div className="form-group">
                       <label htmlFor="phone">Phone</label>
                       <input
-                        type="text"
+                        type="tel"
                         className="form-control"
                         name="phone"
-                        minLength="10"
+                        maxLength="11"
                         required
                         ref={this.phoneInput}
                         defaultValue={client.phone}
